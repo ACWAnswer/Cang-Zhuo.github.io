@@ -1,0 +1,446 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Microsoft YaHei", Arial, sans-serif;
+    background: #f5f7fa;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* 寮圭獥閬僵 */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.45);
+    backdrop-filter: blur(4px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    animation: fadeIn 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.modal-overlay.hidden {
+    animation: fadeOut 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    pointer-events: none;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes fadeOut {
+    from {
+        opacity: 1;
+    }
+
+    to {
+        opacity: 0;
+    }
+}
+
+/* 寮圭獥鍐呭 - 鎶藉椋庢牸 */
+.modal {
+    background: #ffffff;
+    width: 90%;
+    max-width: 450px;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    animation: modalSlideIn 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    position: relative;
+    margin: 20px;
+}
+
+@keyframes modalSlideIn {
+    from {
+        transform: scale(0.95) translateY(-20px);
+        opacity: 0;
+    }
+
+    to {
+        transform: scale(1) translateY(0);
+        opacity: 1;
+    }
+}
+
+/* 寮圭獥鏍囬鏍� - Windows椋庢牸 */
+.modal-header {
+    background: #f3f3f3;
+    padding: 14px 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid #e5e5e5;
+}
+
+.modal-title {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex: 1;
+}
+
+.modal-icon {
+    font-size: 20px;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal-title span {
+    font-size: 13px;
+    color: #1f1f1f;
+    font-weight: 400;
+}
+
+.modal-close {
+    background: transparent;
+    border: none;
+    color: #1f1f1f;
+    font-size: 16px;
+    cursor: pointer;
+    width: 46px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.1s;
+    font-family: 'Segoe UI', sans-serif;
+    font-weight: 300;
+}
+
+.modal-close:hover {
+    background: #e81123;
+    color: #ffffff;
+}
+
+/* 鎶藉瀹瑰櫒 */
+.lottery-container {
+    padding: 20px 15px;
+    text-align: center;
+}
+
+.lottery-title {
+    font-size: 20px;
+    color: #1f1f1f;
+    margin-bottom: 6px;
+    font-weight: 600;
+}
+
+.lottery-subtitle {
+    font-size: 13px;
+    color: #605e5c;
+    margin-bottom: 20px;
+}
+
+/* 杞洏瀹瑰櫒 */
+.wheel-container {
+    position: relative;
+    width: 100%;
+    max-width: 320px;
+    height: 320px;
+    margin: 0 auto 30px;
+}
+
+/* 鎸囬拡 */
+.wheel-pointer {
+    position: absolute;
+    top: 5px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 0;
+    border-left: 20px solid transparent;
+    border-right: 20px solid transparent;
+    border-top: 30px solid #ffffff;
+    z-index: 10;
+}
+
+/* 杞洏 */
+.wheel {
+    width: 100%;
+    max-width: 320px;
+    height: 320px;
+    border-radius: 50%;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+    border: 10px solid #ffc107;
+    transition: transform 4s cubic-bezier(0.25, 0.1, 0.25, 1);
+    position: relative;
+    background: conic-gradient(from 0deg,
+            #ff6b6b 0deg 55deg,
+            #ffd93d 55deg 110deg,
+            #6bcf7f 110deg 165deg,
+            #4d96ff 165deg 220deg,
+            #a78bfa 220deg 270deg,
+            #ff1744 270deg 290deg,
+            #14b8a6 290deg 330deg,
+            #fb923c 330deg 360deg);
+}
+
+/* 杞洏鏂囧瓧灞� */
+.segment {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 0;
+    height: 0;
+}
+
+.segment span {
+    position: absolute;
+    color: #fff;
+    font-size: 14px;
+    font-weight: bold;
+    text-align: center;
+    line-height: 1;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6);
+    white-space: nowrap;
+    left: 0;
+    top: -90px;
+    transform-origin: center center;
+}
+
+/* 璋㈣阿鍙備笌 - 0搴﹀埌55搴︼紝涓績27.5搴� */
+.segment-1 {
+    transform: rotate(27.5deg);
+}
+
+.segment-1 span {
+    transform: translateX(-50%) rotate(90deg);
+}
+
+/* 鍐嶆帴鍐嶅帀 - 55搴﹀埌110搴︼紝涓績82.5搴� */
+.segment-2 {
+    transform: rotate(82.5deg);
+}
+
+.segment-2 span {
+    transform: translateX(-50%) rotate(90deg);
+}
+
+/* 璋㈣阿鎯犻【 - 110搴﹀埌165搴︼紝涓績137.5搴� */
+.segment-3 {
+    transform: rotate(137.5deg);
+}
+
+.segment-3 span {
+    transform: translateX(-50%) rotate(90deg);
+}
+
+/* 宸竴鐐� - 165搴﹀埌220搴︼紝涓績192.5搴� */
+.segment-4 {
+    transform: rotate(192.5deg);
+}
+
+.segment-4 span {
+    transform: translateX(-50%) rotate(90deg);
+}
+
+/* 鍐嶆潵涓€娆� - 220搴﹀埌270搴︼紝涓績245搴� */
+.segment-5 {
+    transform: rotate(245deg);
+}
+
+.segment-5 span {
+    transform: translateX(-50%) rotate(90deg);
+}
+
+/* 鐗圭瓑濂� - 270搴﹀埌290搴︼紝涓績280搴� */
+.segment-6 {
+    transform: rotate(280deg);
+}
+
+.segment-6 span {
+    font-size: 15px;
+    transform: translateX(-50%) rotate(90deg);
+}
+
+/* 鍔犳补 - 290搴﹀埌330搴︼紝涓績310搴� */
+.segment-7 {
+    transform: rotate(310deg);
+}
+
+.segment-7 span {
+    transform: translateX(-50%) rotate(90deg);
+}
+
+/* 閬楁喚 - 330搴﹀埌360搴︼紝涓績345搴� */
+.segment-8 {
+    transform: rotate(345deg);
+}
+
+.segment-8 span {
+    transform: translateX(-50%) rotate(90deg);
+}
+
+/* 杞洏涓績 */
+.wheel-center {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 80px;
+    height: 80px;
+    background: linear-gradient(135deg, #ffd700 0%, #ffb300 100%);
+    border-radius: 50%;
+    border: 6px solid #fff;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 5;
+}
+
+.wheel-center-text {
+    font-size: 38px;
+}
+
+/* 涓缁撴灉 */
+.prize-result {
+    display: none;
+    background: linear-gradient(135deg, #ffd700 0%, #ffed4e 100%);
+    padding: 20px;
+    border-radius: 10px;
+    margin-top: 20px;
+    box-shadow: 0 4px 15px rgba(255, 215, 0, 0.4);
+    animation: resultShow 0.5s ease-out;
+}
+
+.prize-result.show {
+    display: block;
+}
+
+@keyframes resultShow {
+    from {
+        opacity: 0;
+        transform: scale(0.8);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.prize-result-text {
+    font-size: 18px;
+    font-weight: bold;
+    color: #8b4513;
+}
+
+/* 欠款总额显示 */
+.prize-debt {
+    margin-top: 8px;
+    font-size: 16px;
+    color: #6b4e16;
+}
+
+/* 寮圭獥鎸夐挳 */
+.modal-footer {
+    padding: 16px 24px 24px;
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+}
+
+.modal-button {
+    background: #0067c0;
+    color: white;
+    font-size: 15px;
+    padding: 12px 36px;
+    border: 1px solid #0067c0;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-weight: 500;
+    min-width: 120px;
+}
+
+.modal-button:hover {
+    background: #005a9e;
+    border-color: #005a9e;
+    transform: translateY(-1px);
+}
+
+.modal-button:active {
+    background: #004275;
+    border-color: #004275;
+    transform: translateY(0);
+}
+
+.modal-button:disabled {
+    background: #ccc;
+    border-color: #ccc;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.claim-button {
+    background: #e81123;
+    border-color: #e81123;
+}
+
+.claim-button:hover {
+    background: #c70012;
+    border-color: #c70012;
+}
+
+.claim-button:active {
+    background: #a00010;
+    border-color: #a00010;
+}
+
+/* 涓诲唴瀹瑰尯 */
+.content {
+    text-align: center;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.5s ease-out;
+    pointer-events: none;
+}
+
+.content.show {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+}
+
+.image-container {
+    margin-bottom: 30px;
+}
+
+.prank-image {
+    max-width: 500px;
+    width: 90%;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.message {
+    color: #333;
+}
+
+.message p {
+    font-size: 24px;
+    line-height: 1.8;
+    margin: 5px 0;
+}
